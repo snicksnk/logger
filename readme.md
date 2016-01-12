@@ -1,3 +1,7 @@
+npm install
+
+npm rum watch-js (для разработки)
+
 Запись
 
 Покупка слона #money $sum="23000" _date="23.01.2016"  

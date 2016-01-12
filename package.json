@@ -1,0 +1,22 @@
+{
+  "name": "loger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "babel-preset-react": "^6.3.13",
+    "babelify": "^7.2.0",
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6"
+  },
+  "scripts": {
+    "build-js" : "browserify -t [ babelify --presets [ react ] ] src/main.js -o build/build.js -d",
+    "watch-js" : "watchify -t [ babelify --presets [ react ] ] src/main.js -o build/build.js -dv"
+  },
+  "devDependencies": {
+    "browserify": "latest",
+    "watchify": "latest"
+  },
+  "author": "",
+  "license": "ISC"
+}
