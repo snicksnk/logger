@@ -43,6 +43,8 @@ class Record {
 			let name = m[2];
 			let value = m[3];
 
+			console.log(m);
+
 			var variable = new Varible();
 			variable.flag = flag;
 			variable.name = name;

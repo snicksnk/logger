@@ -2,12 +2,14 @@
   "name": "loger",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/build.js",
   "dependencies": {
     "babel-preset-react": "^6.3.13",
     "babelify": "^7.2.0",
     "react": "^0.14.6",
-    "react-dom": "^0.14.6"
+    "react-dom": "^0.14.6",
+    "jquery": "latest",
+    "browserify-shim": "latest"
   },
   "scripts": {
     "build-js" : "browserify -t [ babelify --presets [ react ] ] src/main.js -o build/build.js -d",

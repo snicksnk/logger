@@ -5,10 +5,24 @@ var ReactDOM = require('react-dom');
 var RecordVars = React.createClass({
 	render() {
 		var vars = this.props.vars.map(function(variable){
+			var flagClass = 'label-primary';
+			switch(variable.flag){
+				case('#'):
+					flagClass = "label-success"
+					break;
+				case('_'):
+					flagClass = "label-default"
+					break;	
+				case('$'):
+					flagClass = "label-danger"
+					break;		
+			}
 			return (
-				<div>
-				<b>{variable.flag}{variable.name}</b>{variable.value?"="+variable.value:""}<br/>
-				</div>
+				<span>
+					<span className={'label ' + flagClass}>
+						<b>{variable.flag}{variable.name}</b>{variable.value?"="+variable.value:""}
+					</span> &nbsp;
+				</span>	
 			);
 		});
 		return (
@@ -58,9 +72,8 @@ var AddForm = React.createClass({
 	return (
 		<div className="addForm">
 			<form action="#" onSubmit={this.handleSaveLog}>
-				<input type="text" placeholder="Enter your life log" value={this.state.caption} onChange={this.handleCaptionChange} />
+				<input className="form-control" type="text" placeholder="Enter your life log" value={this.state.caption} onChange={this.handleCaptionChange} />
 				<input type="hidden" name="id" value={this.state.id} />
-				<input type="submit" value="save"/>
 			</form>
 		</div>
 	);
@@ -79,7 +92,6 @@ var LoggerBox = React.createClass({
 	render: function() {
 		return (
 			<div className="loggerBox">
-				Hello, world! I am a CommentBox.
 				<AddForm onSave={this.handleSave}/>
 				<ListBox records={this.state.records}/>
 			</div>
