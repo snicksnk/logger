@@ -39,8 +39,6 @@ class Record {
 			}
 			// View your result using the m-variable.
 			// eg m[0] etc.
-			console.log(m);
-
 			let flag = m[1];
 			let name = m[2];
 			let value = m[3];
@@ -62,19 +60,17 @@ class Record {
 class Logger {
 	constructor() {
 		this.records = [];
-		this.load();
+		this.storage = null;
 	}
 
 	create(data){
 		var record = new Record();
-		console.log(data);
 		this.populate(record, data);
 		return record;
 	}
 
 	populate(record, data){
 		_.forEach(data, function(val, key){
-			console.log('set', key, val);
 			record[key] = val;
 		});
 	}
@@ -83,22 +79,45 @@ class Logger {
 		return this.records[id-1];
 	}
 
-	save(record) {
+	save(record, noStore) {
 		if (record.id !== -1){
 			this.records[record.id-1] = record;
 		} else {
 			this.records.push(record);
 			record.id = this.records.length;
 		}
+
+		if (!noStore){
+			this.store();
+		}
 	}
 
-	load() {
+	load(compleateCallback) {
+		/*
 		var record = this.create({id:-1, caption:'Покупка слона #money $sum="23000" _date="23.01.2016"'});
 		this.save(record);
 		var record = this.create({id:-1, caption:'There #tag2 $val1="ne" $val="sdds23"'});
 		this.save(record);
+		*/
+		this.storage.load((error, data) => {
+			_.forEach(JSON.parse(data), (dump) => {
+				var record = this.create(dump)
+				console.log(record);
+				this.save(record, true);
+			});
+
+			//this.store();
+
+			compleateCallback();
+		})
+
 	}
-}
+
+	store() {
+		var data = JSON.stringify(this.records);
+		this.storage.store(data);
+	}
+} 
 
 
 module.exports = {

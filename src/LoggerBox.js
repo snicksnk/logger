@@ -5,7 +5,6 @@ var ReactDOM = require('react-dom');
 var RecordVars = React.createClass({
 	render() {
 		var vars = this.props.vars.map(function(variable){
-			console.log(variable);
 			return (
 				<div>
 				<b>{variable.flag}{variable.name}</b>{variable.value?"="+variable.value:""}<br/>
@@ -24,7 +23,6 @@ var RecordVars = React.createClass({
 
 var ListBox = React.createClass({
 	render: function() {
-		console.log(this.props.records);
 		var listItems = this.props.records.map(function(item) {
 			return (
 				<li key={item.id}> 
@@ -74,11 +72,9 @@ var LoggerBox = React.createClass({
 		return {records: this.props.logger.records};
 	},
 	handleSave: function(data){
-		console.log(data);
 		var record = this.props.logger.create(data);
 		this.props.logger.save(record);
 		this.setState({'records': this.props.logger.records});
-		console.log(this.state.records);
 	},
 	render: function() {
 		return (
@@ -91,4 +87,4 @@ var LoggerBox = React.createClass({
 		}
 });
 
-module.exports =  LoggerBox;
+module.exports =  (() => (LoggerBox))();
