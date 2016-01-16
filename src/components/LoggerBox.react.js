@@ -1,5 +1,8 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var LoggerStore = require('../stores/LoggerStore');
+var LoggerActions = require('../actions/LoggerActions');
+
 
 
 var RecordVars = React.createClass({
@@ -79,15 +82,31 @@ var AddForm = React.createClass({
 	);
 	}
 });
-
+//LoggerBox
 var LoggerBox = React.createClass({
-	getInitialState: function(){
-		return {records: this.props.logger.records};
+
+	componentDidMount: function() {
+		LoggerStore.addChangeListener(this._onChange);
 	},
+
+	componentWillUnmount: function() {
+		LoggerStore.removeChangeListener(this._onChange);
+	},
+
+	getInitialState: function(){
+		return this._getLoggerState();
+	},
+
+	_onChange: function(){
+		this.setState(this._getLoggerState());
+	},
+
+	_getLoggerState: function(){
+		return {records: LoggerStore.records};
+	},
+
 	handleSave: function(data){
-		var record = this.props.logger.create(data);
-		this.props.logger.save(record);
-		this.setState({'records': this.props.logger.records});
+		LoggerActions.save(data);
 	},
 	render: function() {
 		return (

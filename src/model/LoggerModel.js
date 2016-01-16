@@ -1,6 +1,9 @@
 "use strict";
 
 var _ = require('underscore');
+var constants = require('../constants/LoggerConstants');
+
+
 
 class Varible {
 	constructor(){
@@ -10,6 +13,7 @@ class Varible {
 		this._value;
 	}
 }
+
 
 class Record {
     constructor() {
@@ -42,8 +46,6 @@ class Record {
 			let flag = m[1];
 			let name = m[2];
 			let value = m[3];
-
-			console.log(m);
 
 			var variable = new Varible();
 			variable.flag = flag;
@@ -104,7 +106,7 @@ class Logger {
 		this.storage.load((error, data) => {
 			_.forEach(JSON.parse(data), (dump) => {
 				var record = this.create(dump)
-				console.log(record);
+
 				this.save(record, true);
 			});
 

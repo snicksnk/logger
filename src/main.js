@@ -2,25 +2,34 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var Logger = require('./model.js').Logger;
-var LoggerBox = require('./LoggerBox');
+var $ = require('jquery');
+var LoggerStore = require('./stores/LoggerStore');
+var LoggerBox = require('./components/LoggerBox.react');
 var DropBoxStorage = require('./DropBoxStorage');
 
 var Alert = require('react-bootstrap/lib/Alert');
 
+
+
+
+/*
+setInterval(() => {
+AppDispatcher.dispatch({
+        eventName: 'new-item',
+        newItem: { name: 'Marco' } // example data
+    });
+}, 1000);
+*/
 
 window.$ = window.jQuery = require('jquery');
 
 
 
 
-var logger = new Logger();
-logger.storage = new DropBoxStorage('g4xttwd1x1pydyr');
-
-
-logger.load(()=>{
+LoggerStore.load(()=>{
+    console.log('asa');
 	ReactDOM.render(
-	  <LoggerBox logger = {logger} />,
+	  <LoggerBox />,
 	  document.getElementById('content')
 	);	
 });
