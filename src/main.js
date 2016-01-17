@@ -5,7 +5,7 @@ var ReactDOM = require('react-dom');
 var $ = require('jquery');
 var LoggerStore = require('./stores/LoggerStore');
 var LoggerBox = require('./components/LoggerBox.react');
-var DropBoxStorage = require('./DropBoxStorage');
+
 
 var Alert = require('react-bootstrap/lib/Alert');
 

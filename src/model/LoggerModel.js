@@ -85,6 +85,7 @@ class Logger {
 
 	save(record, noStore) {
 		if (record.id !== -1){
+			console.log(record, this.records[record.id-1]);
 			this.records[record.id-1] = record;
 		} else {
 			this.records.push(record);

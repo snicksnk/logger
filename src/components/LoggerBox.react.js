@@ -39,11 +39,14 @@ var RecordVars = React.createClass({
 
 
 var ListBox = React.createClass({
-	render: function() {
+	render: function() { 
+		var editClick = (item) => {
+			this.props.onEdit(item);
+		}
 		var listItems = this.props.records.map(function(item) {
 			return (
 				<li key={item.id}> 
-					<a href={item.id}>{item.caption}</a> <RecordVars vars = {item.vars}/> 
+					<a href="#" onClick={editClick.bind(this, item)} >{item.caption}</a> <RecordVars vars = {item.vars}/> 
 				</li> 
 			); 
 		}); 
@@ -60,23 +63,41 @@ var ListBox = React.createClass({
 
 var AddForm = React.createClass({
 	getInitialState: function(){
-		return {caption: "", id:-1};
+		var record = {caption: "" , id:-1};
+		return {record: record};
 	},
+
+
+	componentDidMount: function() {
+		//LoggerStore.addChangeListener(this._onChange);
+	},
+
+
   	handleCaptionChange: function(e){
-  		this.setState({caption: e.target.value})
+  		var id = this.state.record.id,
+  			caption = e.target.value;
+  		this.setState({record: {caption: caption, id: id}})
   	},
   	handleSaveLog: function(e){
   		e.preventDefault();
-  		this.setState({caption: "", id:-1});
-  		this.props.onSave({caption: this.state.caption, id: this.state.id});
+  		this.props.onSave(this.state.record);
+  		this.setState({record:{caption: "", id:-1}});
+  	},
+
+  	componentWillReceiveProps: function(newProps, oldPr){
+  		console.log('add form receive props',this.props.record);
+  		if (newProps.record){	
+  			this.setState({record:newProps.record});
+  			return true;
+  		}
   	},
 
 	render: function() {
 	return (
 		<div className="addForm">
 			<form action="#" onSubmit={this.handleSaveLog}>
-				<input className="form-control" type="text" placeholder="Enter your life log" value={this.state.caption} onChange={this.handleCaptionChange} />
-				<input type="hidden" name="id" value={this.state.id} />
+				<input className="form-control" type="text" placeholder="Enter your life log" value={this.state.record.caption} onChange={this.handleCaptionChange} />
+				<input type="hidden" name="id" value={this.state.record.id} />
 			</form>
 		</div>
 	);
@@ -94,7 +115,7 @@ var LoggerBox = React.createClass({
 	},
 
 	getInitialState: function(){
-		return this._getLoggerState();
+		return $.extend(this._getLoggerState(), {record: {}});
 	},
 
 	_onChange: function(){
@@ -106,13 +127,22 @@ var LoggerBox = React.createClass({
 	},
 
 	handleSave: function(data){
+		console.log('save data', data);
 		LoggerActions.save(data);
+		this.setState({'editRecord':false});
 	},
+
+	handleEdit: function(data){
+		console.log('handle edir', data)
+		this.setState({'editRecord':data});
+	},
+
 	render: function() {
+		console.log('rerender loggerBox',this.state);
 		return (
 			<div className="loggerBox">
-				<AddForm onSave={this.handleSave}/>
-				<ListBox records={this.state.records}/>
+				<AddForm onSave={this.handleSave} record={this.state.editRecord} />
+				<ListBox onEdit={this.handleEdit} records={this.state.records}/>
 			</div>
 		);
 		}
