@@ -9,6 +9,7 @@
  * TodoActions
  */
 
+ 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var LoggerConstants = require('../constants/LoggerConstants');
 
@@ -23,6 +24,12 @@ var LoggerActions = {
       data: data
     });
   },
+  setTag: function(tag) {
+  	AppDispatcher.dispatch({
+      actionType: LoggerConstants.LOGGER_TAG,
+      tag: tag
+    });
+  }
 };
 
 module.exports  = LoggerActions;

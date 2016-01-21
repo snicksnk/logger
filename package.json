@@ -11,7 +11,8 @@
     "jquery": "latest",
     "browserify-shim": "latest",
     "flux": "latest",
-    "keymirror":"latest"
+    "keymirror":"latest",
+    "react-router":"latest"
   },
   "scripts": {
     "build-js" : "browserify -t [ babelify --presets [ react ] ] src/main.js -o build/build.js -d",

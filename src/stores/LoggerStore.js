@@ -7,7 +7,6 @@ var $ = require('jquery');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 
 
-
 var logger = new model.Logger;
 logger.storage = new DropBoxStorage('g4xttwd1x1pydyr');
 
@@ -29,11 +28,13 @@ AppDispatcher.register(function(action) {
 
   switch(action.actionType) {
     case LoggerConstants.LOGGER_SAVE:
-      console.log(action);
       var record = store.create(action.data);
       store.save(record);
       store.emitChange();
       break;
+    case LoggerConstants.LOGGER_TAG:
+      console.log(action);
+      break;  
     default:
       // no op
   }

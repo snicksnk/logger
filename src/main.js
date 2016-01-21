@@ -5,7 +5,7 @@ var ReactDOM = require('react-dom');
 var $ = require('jquery');
 var LoggerStore = require('./stores/LoggerStore');
 var LoggerBox = require('./components/LoggerBox.react');
-
+var Routes = require('./routes.js');
 
 var Alert = require('react-bootstrap/lib/Alert');
 
@@ -28,8 +28,6 @@ window.$ = window.jQuery = require('jquery');
 
 LoggerStore.load(()=>{
     console.log('asa');
-	ReactDOM.render(
-	  <LoggerBox />,
-	  document.getElementById('content')
-	);	
+    LoggerStore.emitChange();
+	
 });
