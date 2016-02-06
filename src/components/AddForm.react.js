@@ -25,7 +25,6 @@ var AddForm = React.createClass({
   	},
 
   	componentWillReceiveProps: function(newProps, oldPr){
-  		console.log('add form receive props',this.props.record);
   		if (newProps.record){	
   			this.setState({record:newProps.record});
   			return true;

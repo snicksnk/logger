@@ -23,6 +23,11 @@ var store = $.extend(logger, EventEmitter.prototype, {
 });
 
 store.emit(LoggerConstants.LOGGER_UPDATE);
+
+store.addChangeListener(()=>{
+  store.prepareFilter();
+});
+
 AppDispatcher.register(function(action) {
   var text;
 
@@ -34,6 +39,8 @@ AppDispatcher.register(function(action) {
       break;
     case LoggerConstants.LOGGER_TAG:
       console.log(action);
+
+      store.setFilterTag(action.tag);
       break;  
     default:
       // no op

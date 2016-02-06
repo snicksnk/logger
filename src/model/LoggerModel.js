@@ -31,6 +31,23 @@ class Record {
     	return this._caption;
     }
 
+    hasVar(varName){
+    	console.log(varName);
+    	var result = _.find(this.vars, (variable)=>{
+    		console.log(varName, variable.name); 
+    		return (variable.name === varName || variable.flag + variable.name === varName); 
+    	});
+
+    	if (result){
+    		console.log('capt', this._caption);
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
+
+
+
     parseVaribles(caption){
     	var re = /([#@_$])([a-zA-Z]+)(?:=?"([^\s"]+)"?)?/g,
     	m;
@@ -63,8 +80,12 @@ class Record {
 
 class Logger {
 	constructor() {
-		this.records = [];
+		this._records = [];
 		this.storage = null;
+		this._set = [];
+		this._filter = () => {
+			this._set = this._records;
+		};
 	}
 
 	create(data){
@@ -80,21 +101,46 @@ class Logger {
 	}
 
 	get(id) {
-		return this.records[id-1];
+		return this._records[id-1];
 	}
 
 	save(record, noStore) {
 		if (record.id !== -1){
-			console.log(record, this.records[record.id-1]);
-			this.records[record.id-1] = record;
+			this._records[record.id-1] = record;
 		} else {
-			this.records.push(record);
-			record.id = this.records.length;
+			this._records.push(record);
+			record.id = this._records.length;
 		}
 
 		if (!noStore){
 			this.store();
 		}
+	}
+
+	prepareFilter(){
+		this._filter();
+	}
+
+	setFilterTag(tag){
+
+
+		console.log(tag, this._records);
+		if (tag){
+			this._filter = () => {
+
+				console.log('full list', this._records);
+				this._set = _.filter(this._records, (record)=>{
+					if(record){
+						return record.hasVar(tag);
+					}
+				});
+			}
+		}
+
+	}
+
+	get records(){
+		return this._set.reverse();
 	}
 
 	load(compleateCallback) {
@@ -119,7 +165,7 @@ class Logger {
 	}
 
 	store() {
-		var data = JSON.stringify(this.records);
+		var data = JSON.stringify(this._records);
 		this.storage.store(data);
 	}
 } 

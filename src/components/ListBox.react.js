@@ -14,7 +14,7 @@ var ListBox = React.createClass({
 				</li> 
 			); 
 		}); 
-		
+
 
 		return (
 			<ul className="listBox">
@@ -23,5 +23,6 @@ var ListBox = React.createClass({
 		);
 	}
 });
+
 
 module.exports = ListBox;
